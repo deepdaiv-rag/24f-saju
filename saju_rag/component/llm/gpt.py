@@ -48,6 +48,7 @@ class ChatGptClient(
         messages = [{"role": "system", "content": prompt}]
         messages.append({"role": "user", "content": query.conversation_history[-1]['content']})
         json_data = self._call_llm("gpt-4o-mini", messages)
+        print(json_data)
         return json_data
 
 

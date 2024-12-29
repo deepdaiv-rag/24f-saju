@@ -14,3 +14,4 @@ class ConnectorOutput(BaseModel):
     커넥터의 출력 데이터를 정의한 엔티티
     """
     content: str
+    similarity: float
