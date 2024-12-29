@@ -6,7 +6,7 @@ install-precommit:
 install-hooks:
 	pre-commit install
 
-run-hooks:
+pre-commit:
 	pre-commit run --all-files
 
 create-config:

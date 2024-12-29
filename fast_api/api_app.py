@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
-from saju_rag import init, extract_saju
+from saju_rag import init, extract_saju, chat_with_saju
 from saju_rag.core.entity.request_entity import SajuRequest, SajuRequestType
+from saju_rag.core.entity.saju_info import SajuInfo, SajuExtractionResult
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
@@ -45,21 +46,25 @@ async def process_rag(conversation_history: List[dict]):
             "follow_up_prompt": result.follow_up_prompt,
             "extraction_result": result.extraction_result.dict() if result.successful else None,
             "saju_info": result.saju_info.dict() if result.saju_info else None,
-            "user_detail_info": result.user_detail_info.dict() if result.user_detail_info else None,
-            "question_list": result.question_list
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/answer_with_saju")
-async def process_rag(conversation_history: List[dict], saju_info: str):
+async def process_rag(conversation_history: List[dict], saju_info: dict, extraction_result: dict):
     try:
         # SajuRequest 생성
         input = SajuRequest(
             conversation_history=conversation_history,
-            type=SajuRequestType.EXTRACT
+            saju_info=SajuInfo(**saju_info),
+            extraction_result=SajuExtractionResult(**extraction_result),
+            type=SajuRequestType.ANSWER
         )
+
+        result = await chat_with_saju(input)
+
+        return {"answer": result}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -1,3 +1,4 @@
+from typing import List
 from abc import ABC, abstractmethod
 from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 
@@ -8,6 +9,6 @@ class ConnectorPort(ABC):
         ...
 
     @abstractmethod
-    async def get_document(self, input: ConnectorInput) -> ConnectorOutput:
+    async def get_document(self, input: ConnectorInput) -> List[ConnectorOutput]:
         """사용자의 질문에 따라 외부 정보를 조회합니다."""
         ...

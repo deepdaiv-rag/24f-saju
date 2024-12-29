@@ -28,9 +28,9 @@ async def extract_saju(
 async def chat_with_saju(
     request: SajuRequest,
     answer_with_external_info_usecase: AnswerWithExternalInfoUsecase = Provide[BaseContainer.gpt_answer_with_external_info_usecase]
-):
-    request = await answer_with_external_info_usecase.execute(request)
-    return request
+) -> str:
+    result = await answer_with_external_info_usecase.execute(request)
+    return result
 
 if __name__ == "__main__":
     pass

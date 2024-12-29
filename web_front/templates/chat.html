@@ -158,13 +158,15 @@
     <script>
         const conversationHistory = []; // 대화 기록을 저장할 배열
         let mode = "extract";
+        let saju_info = null;
+        let extractionResult = null;
+
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
-            const saju_info = "";
 
             if (message) {
-                addMessage(message, 'user-message');
+                addMessage(message, 'user-message', 'user');
                 input.value = '';
 
                 console.log(conversationHistory);
@@ -181,7 +183,8 @@
                         .then(data => {
                             console.log(data);
                             if (data.successful) {
-                                const extractionResult = data.extraction_result || '응답을 받을 수 없습니다.';
+                                extractionResult = data.extraction_result || '응답을 받을 수 없습니다.';
+                                saju_info = data.saju_info || '응답을 받을 수 없습니다.';
                                 const formattedResult = formatExtractionResult(extractionResult);
                                 addSpecialMessage(formattedResult);
                                 addMessage("질문이 있느냐? 귀찮으니 하나만 물어봐라", 'bot-message');
@@ -195,17 +198,21 @@
                             addMessage('죄송합니다. 오류가 발생했습니다.', 'bot-message');
                         });
                 } else {
+                    console.log("saju_info");
+                    console.log(saju_info);
+                    console.log("extractionResult");
+                    console.log(extractionResult);
                     fetch('http://localhost:8000/answer_with_saju', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ conversation_history: conversationHistory, saju_info: saju_info })
+                        body: JSON.stringify({ "conversation_history": conversationHistory, "saju_info": saju_info, "extraction_result": extractionResult })
                     })
                         .then(response => response.json())
                         .then(data => {
                             console.log(data);
-                            // addMessage(data.follow_up_prompt || '응답을 받을 수 없습니다.', 'bot-message');
+                            addMessage(data.answer || '응답을 받을 수 없습니다.', 'bot-message');
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -215,7 +222,7 @@
             }
         }
 
-        function addMessage(message, className) {
+        function addMessage(message, className, role = "assistant") {
             const chatMessages = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${className}`;
@@ -223,7 +230,7 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            conversationHistory.push({ role: "assistant", content: message });
+            conversationHistory.push({ role: role, content: message });
         }
 
         // Enter 키 입력 처리
@@ -253,7 +260,6 @@
 
             messageDiv.classList.add('fade-in');
             conversationHistory.push({ role: "assistant", content: message });
-            saju_info = message;
         }
     </script>
 </body>
