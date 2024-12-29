@@ -21,6 +21,10 @@ openai = "^1.58.1"
 tenacity = "^9.0.0"
 beautifulsoup4 = "^4.12.3"
 pydantic-settings = "^2.7.0"
+transformers = "^4.47.1"
+torch = "^2.5.1"
+scikit-learn = "^1.6.0"
+playwright = "^1.49.1"
 
 
 [build-system]
