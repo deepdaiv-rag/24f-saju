@@ -12,7 +12,6 @@ packages.txt
 # temp data
 temp
 *.csv
-*.png
 *-notebook.ipynb
 keyfile.json
 
