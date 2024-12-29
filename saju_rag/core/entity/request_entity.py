@@ -2,12 +2,10 @@ from enum import Enum
 from pydantic import BaseModel
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
-from saju_rag.core.entity.saju_info import UserDetailInfo
 
 class SajuRequestType(Enum):
     EXTRACT = "extract"
-    QUESTION = "question"
-    RESPONSE = "response"
+    ANSWER = "answer"
 
 class SajuRequest(BaseModel):
     """
@@ -25,7 +23,5 @@ class SajuRequest(BaseModel):
 
     conversation_history: list[dict] | None = None
 
-    question_list: list[str] | None = None
     saju_info: SajuInfo | None = None
     extraction_result: SajuExtractionResult | None = None
-    user_detail_info: UserDetailInfo | None = None

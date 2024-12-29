@@ -1,27 +1,18 @@
-must question is one by one
-Refer to the user’s chat history to frame responses in JSON format.
-If essential information is missing, directly inquire to fill the gaps
+json 형식으로 출력해주세요.
+사용자의 질문에 따라, 외부 DB 커넥터를 하나 선택하고 문서 검색 시 사용할 쿼리 텍스트를 출력해주세요. 커넥터 목록에서 하나만 선택해주세요.
 
+Input format :
+[{
+    "connector": // 커넥터 이름
+    "description": // 커넥터 설명
+}]
 
-If you successfully gather all required information and answers, proceed to ask an additional question about what else the user is curious about, and then return the data in the following format:
-detail_info_list must not none if successful is true
+위 인풋 정의를 참고하여 사용자의 질문에 따라 외부 DB 커넥터를 하나 선택하고 문서 검색 시 사용할 쿼리 텍스트를 출력해주세요. 커넥터 목록에서 하나만 선택해주세요.
+json 형식으로 출력해주세요.
+output format :
 {
-    "detail_info_list": [
-        {"question": "question1", "answer": "User’s answer or User's information"},
-        {"question": "question2", "answer": "User’s answer or User's information"},
-        {"question": "question3", "answer": "User’s answer or User's information"},
-        "additional_question": "user's additional question"
-    ]
-}
-If additional information is needed, ask in the following format:
-
-{
-    "successful": false,
-    "follow_up_prompt": // ment for get more information
+    "connector": // 선택한 커넥터 이름
+    "query": // 문서 검색에 사용할 쿼리 텍스트
 }
 
-must question is one by one
-must gen follow_up_prompt
-
-대화 히스토리에서 다음 질문의 답변이 존재하지 않는다면 follow_up_prompt를 생성해야 합니다.
-this question list is :
+Connector List :

@@ -9,6 +9,7 @@ from saju_rag.core.port.answer_with_connector_info_port import AnswerWithConnect
 
 from saju_rag.core.entity.request_entity import SajuRequest
 from saju_rag.core.entity.llm_respone import ExtractionSajuInfo
+from saju_rag.core.entity.document import ConnectorOutput
 
 class ChatGptClient(
     SajuInformationExtractionPort[ExtractionSajuInfo],
@@ -43,35 +44,36 @@ class ChatGptClient(
                 birth_hour=json_data.get('birth_hour')
             )
 
-    def select_connector(self, query: SajuRequest, prompt: str) -> ConnectorPort:
-        raise NotImplementedError
-        # messages = [{"role": "system", "content": prompt}]
-        # if query.conversation_history:
-        #     messages.extend(query.conversation_history)
-
-        # json_data = self._call_llm("gpt-4o-mini", messages)
-        # return json_data.get('connector'), json_data.get('query')
+    def select_connector(self, query: SajuRequest, prompt: str) -> dict:
+        messages = [{"role": "system", "content": prompt}]
+        messages.append({"role": "user", "content": query.conversation_history[-1]['content']})
+        json_data = self._call_llm("gpt-4o-mini", messages)
+        return json_data
 
 
-    def answer_with_connector_info(self, query: SajuRequest, prompt: str) -> str:
-        raise NotImplementedError
-        # messages = [{"role": "system", "content": prompt}]
-        # if query.conversation_history:
-        #     messages.extend(query.conversation_history)
+    async def answer_with_connector_info(self, prompt: str, request: SajuRequest) -> str:
+        messages = [{"role": "system", "content": prompt}]
+        messages.append({"role": "user", "content": request.conversation_history[-1]['content']})
 
-        # json_data = self._call_llm("gpt-4o-mini", messages)
-        # return json_data.get('answer')
+        json_data = self._call_llm("gpt-4o-mini", messages)
+        return json_data.get('answer')
+
+
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def _call_llm(self, model: str, messages: list[dict]) -> dict:
-        response = self.client.chat.completions.create(
-            model=model,
-            messages=messages,
-            temperature=0,
-            max_tokens=1000,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            response_format={"type": "json_object"}
-        )
-        return json.loads(response.choices[0].message.content)
+        try:
+            print(messages)
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=0,
+                max_tokens=1000,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0,
+                response_format={"type": "json_object"}
+            )
+            return json.loads(response.choices[0].message.content)
+        except Exception as e:
+            print(e)

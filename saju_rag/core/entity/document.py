@@ -6,11 +6,11 @@ class ConnectorInput(BaseModel):
     커넥터의 입력 데이터를 정의한 엔티티
     """
     query: str
-    user_info : str
+    extraction_result : str
     saju_info : str
 
-class ConnectorOutput(ConnectorInput):
+class ConnectorOutput(BaseModel):
     """
     커넥터의 출력 데이터를 정의한 엔티티
     """
-    document: list[str]
+    content: str
