@@ -27,9 +27,6 @@ class WebConnector(BaseConnector):
         )
         post = naver_post + google_post
         result = self.find_similar_chunks(input.query, post, top_n=5, chunk_size=8192)
-        print("@@@@@@@@@@@@@@@@result@@@@@@@@@@@@@")
-        print(result)
-        print("@@@@@@@@@@@@@@@@@result@@@@@@@@@@@@@@@@@@@@@@")
         return [ConnectorOutput(content=chunk, similarity=similarity) for chunk, similarity in result]
 
     async def search_naver_post(self, query: str) -> List[str]:
@@ -44,11 +41,8 @@ class WebConnector(BaseConnector):
             html_bodies = await asyncio.gather(*(self.fetch_html_body(url) for url in urls), return_exceptions=True)
             # HTML 본문에서 순수 텍스트 추출
             texts = [self.extract_text_from_html(html) for html in html_bodies if html]
-            print("@@@@@@@@@@@@@@Naver@@@@@@@@@@@@@@@@@@@@@@@@@")
-            print(texts)
-            print("@@@@@@@@@@@@@@@Naver@@@@@@@@@@@@@@@@@@@@@@@@")
         except Exception as e:
-            print(f"Error: {e}")
+            pass
         finally:
             await page.close()
 
@@ -67,9 +61,6 @@ class WebConnector(BaseConnector):
             html_bodies = await asyncio.gather(*(self.fetch_html_body(url) for url in urls), return_exceptions=True)
             # HTML 본문에서 순수 텍스트 추출
             texts = [self.extract_text_from_html(html) for html in html_bodies if html]
-            print("@@@@@@@@@@@@@@Google@@@@@@@@@@@@@@@@@@@@@@@@@")
-            print(texts)
-            print("@@@@@@@@@@@@@@@Google@@@@@@@@@@@@@@@@@@@@@@@@")
         finally:
             await page.close()
 
@@ -92,8 +83,7 @@ class WebConnector(BaseConnector):
             await page.goto(url, wait_until="domcontentloaded", timeout=10000)
             html_content = await page.content()  # HTML 본문을 가져옴
         except Exception as e:
-            print(f"Error fetching {url}: {e}")
-            html_content = None  # 오류 발생 시 빈 문자열 반환
+            html_content = None
         finally:
             await page.close()  # 페이지 사용 후 닫기
         return html_content
