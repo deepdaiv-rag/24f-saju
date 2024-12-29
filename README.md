@@ -1,11 +1,12 @@
 # 🌟 Deepdaiv Rag 사주 어플리케이션
 
 ## 소개
-<div style="display: flex;overflow-x: auto;">
-    <img src="./docs/home.png" alt="스크린샷1" style="margin-right: 10px;" />
-    <img src="./docs/chat.png" alt="스크린샷2" />
-</div>
-
+<table>
+    <tr>
+        <td><img src="./docs/home.png" alt="스크린샷1" /></td>
+        <td><img src="./docs/chat.png" alt="스크린샷2" /></td>
+    </tr>
+</table>
 
 사주 어플리케이션은 사용자의 출생정보를 기반으로 개인의 사주를 분석하고, 운세, 성격, 직업 추천 등 심리 상담 서비스를 제공하는 웹 어플리케이션입니다. 이 어플리케이션은 전통적인 사주 이론을 현대적인 기술로 구현하여, 사용자에게 유용한 정보를 제공합니다.
 
