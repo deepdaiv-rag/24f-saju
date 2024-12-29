@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사주팔자 결과</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #3b3b4f);
+            color: #e5e5e5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result-container {
+            background: rgba(30, 30, 47, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+            max-width: 800px;
+            width: 90%;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .saju-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .saju-element {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: elementFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes elementFadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .saju-element:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .saju-element:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .saju-element:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .saju-element:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        h1 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            font-family: 'Nanum Myeongjo', serif;
+        }
+
+        .interpretation {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+
+        .back-btn {
+            background: linear-gradient(to right, #ff8c00, #ff4500);
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="result-container">
+        <h1>사주팔자 분석 결과</h1>
+
+        <div class="saju-grid">
+            <div class="saju-element">
+                <h3>년주</h3>
+                <p>{{ year_pillar }}</p>
+            </div>
+            <div class="saju-element">
+                <h3>월주</h3>
+                <p>{{ month_pillar }}</p>
+            </div>
+            <div class="saju-element">
+                <h3>일주</h3>
+                <p>{{ day_pillar }}</p>
+            </div>
+            <div class="saju-element">
+                <h3>시주</h3>
+                <p>{{ time_pillar }}</p>
+            </div>
+        </div>
+
+        <div class="interpretation">
+            <h3>🔮 운세 해석</h3>
+            <p>{{ interpretation }}</p>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='/home'">다시 상담하기</button>
+    </div>
+</body>
+
+</html>

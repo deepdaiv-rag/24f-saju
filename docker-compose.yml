@@ -1,0 +1,26 @@
+services:
+  web_front:
+    build: ./web_front
+    image: web_front
+    container_name: web_front
+    environment:
+      - EXECUTOR=Local
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./web_front:/app
+    command: bash -c "python3 /app/front_app.py"
+
+  fast_api:
+    build: ./fast_api
+    image: fast_api
+    container_name: fast_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    command: bash -c "python3 /app/fast_api/api_app.py"
+
+networks:
+  default:
+    name: deepdaiv_rag_network

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사주팔자 상담</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nanum Gothic', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #3b3b4f);
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(30, 30, 47, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+            max-width: 90%;
+            width: 90%;
+            height: 90vh;
+            position: relative;
+        }
+
+        .chat-container {
+            height: calc(100% - 120px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            text-align: left;
+        }
+
+        .user-message {
+            background: linear-gradient(to right, #ff8c00, #ff4500);
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .send-btn {
+            background: linear-gradient(to right, #ff8c00, #ff4500);
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            font-family: 'Nanum Myeongjo', serif;
+        }
+
+        .special-message {
+            background: rgba(62, 44, 145, 0.841);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            color: #fff;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>사주팔자 상담</h1>
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    안녕하세요! 사주팔자 상담을 시작하겠습니다. 먼저 태어난 년월일시를 알려주세요.
+                </div>
+            </div>
+            <div class="input-area">
+                <input type="text" class="chat-input" id="messageInput" placeholder="메시지를 입력하세요...">
+                <button class="send-btn" onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const conversationHistory = []; // 대화 기록을 저장할 배열
+        let mode = "extract";
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            const saju_info = "";
+
+            if (message) {
+                addMessage(message, 'user-message');
+                input.value = '';
+
+                console.log(conversationHistory);
+
+                if (mode == "extract") {
+                    fetch('http://localhost:8000/extract_saju', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(conversationHistory) // 대화 기록을 전송
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.successful) {
+                                const extractionResult = data.extraction_result || '응답을 받을 수 없습니다.';
+                                const formattedResult = formatExtractionResult(extractionResult);
+                                addSpecialMessage(formattedResult);
+                                addMessage("질문이 있느냐? 귀찮으니 하나만 물어봐라", 'bot-message');
+                                mode = "answer";
+                            } else {
+                                addMessage(data.follow_up_prompt || '응답을 받을 수 없습니다.', 'bot-message'); // 응답 처리
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            addMessage('죄송합니다. 오류가 발생했습니다.', 'bot-message');
+                        });
+                } else {
+                    fetch('http://localhost:8000/answer_with_saju', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ conversation_history: conversationHistory, saju_info: saju_info })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            // addMessage(data.follow_up_prompt || '응답을 받을 수 없습니다.', 'bot-message');
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            addMessage('죄송합니다. 오류가 발생했습니다.', 'bot-message');
+                        });
+                }
+            }
+        }
+
+        function addMessage(message, className) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${className}`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            conversationHistory.push({ role: "assistant", content: message });
+        }
+
+        // Enter 키 입력 처리
+        document.getElementById('messageInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function formatExtractionResult(result) {
+            const fortune_period = result.fortune_period.split(':')[1].trim();
+            let formatted = `<strong><h5>${fortune_period}</h5></strong><hr>`;
+
+            for (const [key, value] of Object.entries(result.fortunes)) {
+                formatted += `<strong>${key}:</strong><br>${value}<br><hr>`;
+            }
+            return formatted;
+        }
+
+        function addSpecialMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message special-message';
+            messageDiv.innerHTML = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            messageDiv.classList.add('fade-in');
+            conversationHistory.push({ role: "assistant", content: message });
+            saju_info = message;
+        }
+    </script>
+</body>
+
+</html>

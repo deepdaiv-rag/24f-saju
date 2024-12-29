@@ -1,0 +1,27 @@
+**/__pycache__/
+.DS_Store
+.dockerignore
+packages.txt
+.astro
+.env*
+!.env.example
+.devcontainer
+.vscode
+.idea
+
+# temp data
+temp
+*.csv
+*.png
+*-notebook.ipynb
+keyfile.json
+
+test_data/
+dist/
+test.py
+test.ipynb
+test_*.py
+aggreagate.ipynb
+volume
+
+*test

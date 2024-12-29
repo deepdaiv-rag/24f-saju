@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "saju_front"
+version = "0.1.0"
+description = "Deepdaiv Rag 사주 프론트 엔드"
+authors = ["youngchannel"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+flask = "^2.3.0"
+fastapi = "^0.110.0"
+uvicorn = "^0.27.1"
+pydantic = "^2.6.3"
+requests = "^2.31.0"
+python-multipart = "^0.0.9"
+httpx = "^0.27.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

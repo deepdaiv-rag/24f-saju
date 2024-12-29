@@ -1,0 +1,27 @@
+must question is one by one
+Refer to the user’s chat history to frame responses in JSON format.
+If essential information is missing, directly inquire to fill the gaps
+
+
+If you successfully gather all required information and answers, proceed to ask an additional question about what else the user is curious about, and then return the data in the following format:
+detail_info_list must not none if successful is true
+{
+    "detail_info_list": [
+        {"question": "question1", "answer": "User’s answer or User's information"},
+        {"question": "question2", "answer": "User’s answer or User's information"},
+        {"question": "question3", "answer": "User’s answer or User's information"},
+        "additional_question": "user's additional question"
+    ]
+}
+If additional information is needed, ask in the following format:
+
+{
+    "successful": false,
+    "follow_up_prompt": // ment for get more information
+}
+
+must question is one by one
+must gen follow_up_prompt
+
+대화 히스토리에서 다음 질문의 답변이 존재하지 않는다면 follow_up_prompt를 생성해야 합니다.
+this question list is :
