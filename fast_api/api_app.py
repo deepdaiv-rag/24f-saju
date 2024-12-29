@@ -36,10 +36,10 @@ async def process_rag(conversation_history: List[dict]):
             conversation_history=conversation_history,
             type=SajuRequestType.EXTRACT
         )
-        
+
         # Saju 추출 실행
         result = await extract_saju(input)
-        
+
         return {
             "successful": result.successful,
             "follow_up_prompt": result.follow_up_prompt,
@@ -51,7 +51,7 @@ async def process_rag(conversation_history: List[dict]):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
 @app.post("/answer_with_saju")
 async def process_rag(conversation_history: List[dict], saju_info: str):
     try:

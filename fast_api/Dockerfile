@@ -16,5 +16,3 @@ COPY pyproject.toml poetry.lock* ./
 RUN poetry install
 
 ENV PYTHONPATH=/app
-
-

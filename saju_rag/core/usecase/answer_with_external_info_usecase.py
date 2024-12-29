@@ -5,8 +5,8 @@ from saju_rag.core.entity.request_entity import SajuRequest
 from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 
 class AnswerWithExternalInfoUsecase:
-    def __init__(self, 
-                 select_connector_port: SelectConnectorPort, 
+    def __init__(self,
+                 select_connector_port: SelectConnectorPort,
                  answer_with_connector_info_port: AnswerWithConnectorInfoPort
     ):
         # 사용자의 질문에 따라 외부 정보 레파지토리를 선택하는 모듈

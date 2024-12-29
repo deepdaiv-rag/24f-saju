@@ -60,7 +60,7 @@ class ChatGptClient(
         #     messages.extend(query.conversation_history)
 
         # json_data = self._call_llm("gpt-4o-mini", messages)
-        # return json_data.get('answer')    
+        # return json_data.get('answer')
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def _call_llm(self, model: str, messages: list[dict]) -> dict:

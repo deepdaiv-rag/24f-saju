@@ -63,7 +63,7 @@ class ShinhanSajuWebApi(SajuRepository):
             fortunes=saju_info['fortunes'],
             saju_table=saju_info['saju_table']
         )
-    
+
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
     def _request_shinhan_saju(self, user_info: SajuInfo) -> Response:
         input_data = {
@@ -80,7 +80,7 @@ class ShinhanSajuWebApi(SajuRepository):
             "birth_day": user_info.birth_day,
             "birth_hour": user_info.birth_hour
         }
-        
+
         try:
             response = self.zenrows_client.post(self.url, headers=self.headers, data=input_data)
             response.raise_for_status()
