@@ -49,6 +49,12 @@ class ChatGptClient(
         messages.append({"role": "user", "content": query.conversation_history[-1]['content']})
         json_data = self._call_llm("gpt-4o-mini", messages)
         print(json_data)
+        if not json_data:
+            print("json_data is None")
+            return {
+                "connector": "WebConnector",
+                "query": query.conversation_history[-1]['content']
+            }
         return json_data
 
 
@@ -78,3 +84,4 @@ class ChatGptClient(
             return json.loads(response.choices[0].message.content)
         except Exception as e:
             print(e)
+            return None

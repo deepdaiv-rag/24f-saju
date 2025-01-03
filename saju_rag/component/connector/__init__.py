@@ -15,8 +15,8 @@ model = load_model(model_name)
 connectors = [connector(model, tokenizer)
                 for connector in (
                     WebConnector,
-                    JobConnector,
-                    PsychologyConnector
+                    # JobConnector,
+                    # PsychologyConnector
                 )
              ]
 
