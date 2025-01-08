@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "saju_front"
+name = "fast_api"
 version = "0.1.0"
 description = "Deepdaiv Rag core"
 authors = ["youngchannel"]
