@@ -3,7 +3,6 @@ name = "saju_front"
 version = "0.1.0"
 description = "Deepdaiv Rag 사주 프론트 엔드"
 authors = ["youngchannel"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"

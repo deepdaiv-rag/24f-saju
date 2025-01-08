@@ -24,8 +24,9 @@ class WebConnector(BaseConnector):
         naver_post, google_post = await asyncio.gather(
             self.search_naver_post(input.query), self.search_google_post(input.query)
         )
-        post = naver_post + google_post
-        result = self.find_similar_chunks(input.query, post, top_n=5, chunk_size=8192)
+        posts = naver_post + google_post
+        posts = [post for post in posts if post is not None]
+        result = self.find_similar_chunks(input.query, posts, top_n=5, chunk_size=1024)
         return [
             ConnectorOutput(content=chunk, similarity=similarity)
             for chunk, similarity in result
@@ -100,4 +101,7 @@ class WebConnector(BaseConnector):
 
     def extract_text_from_html(self, html):
         soup = BeautifulSoup(html, "html.parser")
-        return soup.get_text(separator=" ", strip=True)  # 텍스트만 추출
+        result = soup.get_text(separator=" ", strip=True)
+        if len(result) < 300:
+            return None
+        return result
