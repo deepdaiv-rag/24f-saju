@@ -12,17 +12,20 @@ model_name = os.getenv("EMBEDDING_MODEL_NAME").replace("`", "")
 tokenizer = load_tokenizer(model_name)
 model = load_model(model_name)
 
-connectors = [connector(model, tokenizer)
-                for connector in (
-                    WebConnector,
-                    # JobConnector,
-                    # PsychologyConnector
-                )
-             ]
+connectors = [
+    connector(model, tokenizer)
+    for connector in (
+        WebConnector,
+        # JobConnector,
+        # PsychologyConnector
+    )
+]
+
 
 def get_all_connector_info():
     info = [connector.connector_info() for connector in connectors]
     return f"[ {', '.join(info)} ]"
+
 
 def select_connector(connector_name: str):
     try:
@@ -33,7 +36,5 @@ def select_connector(connector_name: str):
         print(e)
         return None
 
-__all__ = [
-    "get_all_connector_info",
-    "select_connector"
-]
+
+__all__ = ["get_all_connector_info", "select_connector"]

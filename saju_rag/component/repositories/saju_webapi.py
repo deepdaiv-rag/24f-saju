@@ -8,6 +8,7 @@ from saju_rag.core.repository.saju_repo import SajuRepository
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
 
+
 class ShinhanSajuWebApi(SajuRepository):
     def __init__(self, zenrows_client: ZenRowsClient, host: str):
         """
@@ -23,45 +24,44 @@ class ShinhanSajuWebApi(SajuRepository):
         }
         self.url = host
 
-
     async def get_by_user_info(self, user_info: SajuInfo) -> SajuExtractionResult:
         try:
             response = self._request_shinhan_saju(user_info)
         except Exception as e:
             raise e
 
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
 
         # 사주 정보를 담을 딕셔너리
         saju_info = {}
 
         # 사주 표 데이터 추출
-        saju_table = soup.select_one('.saju_table table')
+        saju_table = soup.select_one(".saju_table table")
         if saju_table:
-            rows = saju_table.find_all('tr')[1:]
-            saju_info['saju_table'] = []
+            rows = saju_table.find_all("tr")[1:]
+            saju_info["saju_table"] = []
             for row in rows:
-                columns = row.find_all('td')
+                columns = row.find_all("td")
                 saju_row = [col.text.strip() for col in columns]
-                saju_info['saju_table'].append(saju_row)
+                saju_info["saju_table"].append(saju_row)
 
         # 대운 정보 추출
-        fortune_paragraph = soup.select_one('.saju_txt_01')
+        fortune_paragraph = soup.select_one(".saju_txt_01")
         if fortune_paragraph:
-            saju_info['fortune_period'] = fortune_paragraph.text.strip()
+            saju_info["fortune_period"] = fortune_paragraph.text.strip()
 
         # 운세별 상세 정보 추출
-        result_containers = soup.select('.result_cont')
-        saju_info['fortunes'] = {}
+        result_containers = soup.select(".result_cont")
+        saju_info["fortunes"] = {}
         for result in result_containers:
-            title = result.select_one('.tit_txt').text.strip()
-            content = result.select_one('.content').text.strip()
-            saju_info['fortunes'][title] = content
+            title = result.select_one(".tit_txt").text.strip()
+            content = result.select_one(".content").text.strip()
+            saju_info["fortunes"][title] = content
 
         return SajuExtractionResult(
-            fortune_period=saju_info['fortune_period'],
-            fortunes=saju_info['fortunes'],
-            saju_table=saju_info['saju_table']
+            fortune_period=saju_info["fortune_period"],
+            fortunes=saju_info["fortunes"],
+            saju_table=saju_info["saju_table"],
         )
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(3))
@@ -78,11 +78,13 @@ class ShinhanSajuWebApi(SajuRepository):
             "birth_year": user_info.birth_year,
             "birth_month": user_info.birth_month,
             "birth_day": user_info.birth_day,
-            "birth_hour": user_info.birth_hour
+            "birth_hour": user_info.birth_hour,
         }
 
         try:
-            response = self.zenrows_client.post(self.url, headers=self.headers, data=input_data)
+            response = self.zenrows_client.post(
+                self.url, headers=self.headers, data=input_data
+            )
             response.raise_for_status()
             return response
         except Exception as e:

@@ -3,9 +3,11 @@ from pydantic import BaseModel
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
 
+
 class SajuRequestType(Enum):
     EXTRACT = "extract"
     ANSWER = "answer"
+
 
 class SajuRequest(BaseModel):
     """
@@ -16,6 +18,7 @@ class SajuRequest(BaseModel):
     - user_detail_info : 사용자 상세 정보
     - conversation_history : 대화 기록
     """
+
     type: SajuRequestType = SajuRequestType.EXTRACT
 
     successful: bool = False

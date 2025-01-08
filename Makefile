@@ -18,5 +18,9 @@ create-config:
 	echo "      - id: end-of-file-fixer" >> .pre-commit-config.yaml
 	echo "      - id: check-yaml" >> .pre-commit-config.yaml
 	echo "      - id: check-added-large-files" >> .pre-commit-config.yaml
+	echo "  - repo: https://github.com/psf/black" >> .pre-commit-config.yaml
+	echo "    rev: 23.1.0" >> .pre-commit-config.yaml
+	echo "    hooks:" >> .pre-commit-config.yaml
+	echo "      - id: black" >> .pre-commit-config.yaml
 
 setup: install-precommit create-config install-hooks

@@ -2,9 +2,11 @@ from enum import Enum
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class Gender(Enum):
     MALE = "M"
     FEMALE = "F"
+
 
 class SajuInfo(BaseModel):
     """
@@ -22,6 +24,7 @@ class SajuInfo(BaseModel):
     - birth_day : 출생 일 - ex) "30"
     - birth_hour : 출생 시간 - ex) "02"
     """
+
     unse_code: str | None = "A042"
     specific_year: str | None = str(datetime.now().year)
     specific_month: str | None = str(datetime.now().month)
@@ -34,7 +37,6 @@ class SajuInfo(BaseModel):
     birth_hour: str | None = None
 
 
-
 class SajuExtractionResult(BaseModel):
     """
     사주 정보 추출 결과 모델
@@ -45,6 +47,7 @@ class SajuExtractionResult(BaseModel):
     - name : 이름
     - saju_table : 사주 테이블
     """
+
     fortune_period: str | None = None
     fortunes: dict[str, str] | None = None
     saju_table: list[list[str]] | None = None

@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
 
+
 class SajuRepository(ABC):
     def __init__(self, zenrows_client: ZenRowsClient):
         self.zenrows_client = zenrows_client
