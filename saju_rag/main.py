@@ -16,6 +16,44 @@ async def init():
     container.init_resources()
     print("container initialized")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @inject
 async def extract_saju(
     request: SajuRequest,
