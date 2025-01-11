@@ -7,8 +7,4 @@ def get_es_client(
     es_password: str,
     es_n_connections: int = 10,
 ) -> AsyncElasticsearch:
-    return AsyncElasticsearch(
-        hosts=[es_url],
-        basic_auth=(es_username, es_password),
-        connections_per_node=es_n_connections,
-    )
+    return AsyncElasticsearch(es_url, http_auth=(es_username, es_password))

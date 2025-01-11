@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from dependency_injector.wiring import Provide, inject
 
 from saju_rag.core.usecase.extract_saju_usecase import ExtractSajuUseCase

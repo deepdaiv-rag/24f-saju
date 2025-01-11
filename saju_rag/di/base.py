@@ -23,7 +23,6 @@ from saju_rag.component.connector import ConnectorProvider
 
 class BaseContainer(DeclarativeContainer):
     config: Settings = providers.Configuration()
-
     # infra
     zenrows_client = providers.Resource(
         get_zenrows_client, api_key=config.zenrows_api_key

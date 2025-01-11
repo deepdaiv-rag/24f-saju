@@ -24,4 +24,4 @@ transformers = "^4.47.1"
 torch = "^2.5.1"
 scikit-learn = "^1.6.0"
 playwright = "^1.49.1"
-elasticsearch = {extras = ["async"], version = "^8.15.1"}
+elasticsearch = {extras = ["async"], version = "7.17.12"}
