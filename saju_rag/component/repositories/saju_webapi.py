@@ -1,12 +1,13 @@
+import requests
 from bs4 import BeautifulSoup
-from requests import Response
+from requests import Response, HTTPError
 from zenrows import ZenRowsClient
 from tenacity import retry, stop_after_attempt, wait_fixed
 
-from saju_rag.core.repository.saju_repo import SajuRepository
-
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
+
+from saju_rag.core.repository.saju_repo import SajuRepository
 
 
 class ShinhanSajuWebApi(SajuRepository):
@@ -87,5 +88,13 @@ class ShinhanSajuWebApi(SajuRepository):
             )
             response.raise_for_status()
             return response
+        except HTTPError as http_err:
+            if http_err.response.status_code == 402:
+                response = requests.post(
+                    self.url, headers=self.headers, data=input_data
+                )
+                return response
+            raise http_err
         except Exception as e:
+            print(e)
             raise e

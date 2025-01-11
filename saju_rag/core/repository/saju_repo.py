@@ -1,5 +1,6 @@
-from zenrows import ZenRowsClient
 from abc import ABC, abstractmethod
+from zenrows import ZenRowsClient
+
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
 

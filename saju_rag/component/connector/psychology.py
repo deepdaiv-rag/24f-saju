@@ -3,6 +3,10 @@ from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 
 
 class PsychologyConnector(BaseConnector):
+    def __init__(self, model, tokenizer, es_repository):
+        super().__init__(model, tokenizer)
+        self.es_repository = es_repository
+
     def connector_info(self) -> str:
         return '{ "connector" : "PsychologyConnector", "description" : "심리학 정보 DB에서 정보를 조회합니다." }'
 

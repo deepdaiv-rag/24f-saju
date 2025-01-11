@@ -2,18 +2,16 @@ import json
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_fixed
 
+from saju_rag.core.entity.request_entity import SajuRequest
+from saju_rag.core.entity.llm_respone import ExtractionSajuInfo
+
 from saju_rag.core.port.saju_information_extraction_port import (
     SajuInformationExtractionPort,
 )
 from saju_rag.core.port.select_connector_port import SelectConnectorPort
-from saju_rag.core.port.connector import ConnectorPort
 from saju_rag.core.port.answer_with_connector_info_port import (
     AnswerWithConnectorInfoPort,
 )
-
-from saju_rag.core.entity.request_entity import SajuRequest
-from saju_rag.core.entity.llm_respone import ExtractionSajuInfo
-from saju_rag.core.entity.document import ConnectorOutput
 
 
 class ChatGptClient(
@@ -21,9 +19,8 @@ class ChatGptClient(
     SelectConnectorPort,
     AnswerWithConnectorInfoPort,
 ):
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-        self.client = OpenAI(api_key=self.api_key)
+    def __init__(self, client: OpenAI):
+        self.client = client
 
     def extract_saju_information(
         self, get_saju_info_prompt: str, conversation_history: list[dict] | None = None

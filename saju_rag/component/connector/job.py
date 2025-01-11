@@ -3,6 +3,10 @@ from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 
 
 class JobConnector(BaseConnector):
+    def __init__(self, model, tokenizer, es_repository):
+        super().__init__(model, tokenizer)
+        self.es_repository = es_repository
+
     def connector_info(self) -> str:
         return (
             '{ "connector" : "JobConnector", "description" : "직업 정보 DB에서 정보를 조회합니다." }'

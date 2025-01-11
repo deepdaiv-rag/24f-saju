@@ -1,9 +1,11 @@
+from saju_rag.core.entity.llm_respone import ExtractionSajuInfo
+from saju_rag.core.entity.request_entity import SajuRequest
+
+from saju_rag.core.repository.saju_repo import SajuRepository
+
 from saju_rag.core.port.saju_information_extraction_port import (
     SajuInformationExtractionPort,
 )
-from saju_rag.core.entity.llm_respone import ExtractionSajuInfo
-from saju_rag.core.repository.saju_repo import SajuRepository
-from saju_rag.core.entity.request_entity import SajuRequest
 
 
 class ExtractSajuUseCase:
@@ -32,9 +34,13 @@ class ExtractSajuUseCase:
         # (2) 추출 가능 여부 확인
         if saju_info.successful:
             # (3-1) 추출된 사주 정보를 결과 값에 저장
+            print(1)
             result = await self._saju_repository.get_by_user_info(saju_info)
+            print(2)
             request.saju_info = saju_info
+            print(3)
             request.extraction_result = result
+            print(4)
             request.successful = True
         else:
             # (3-2) 추출 불가능 시 질문 생성

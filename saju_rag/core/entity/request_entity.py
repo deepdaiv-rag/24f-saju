@@ -1,5 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel
+
 from saju_rag.core.entity.saju_info import SajuInfo
 from saju_rag.core.entity.saju_info import SajuExtractionResult
 

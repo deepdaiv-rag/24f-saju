@@ -1,5 +1,6 @@
 from typing import List
 from abc import ABC, abstractmethod
+
 from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 
 

@@ -1,4 +1,7 @@
 from openai import OpenAI
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 def get_gpt_client(api_key: str) -> OpenAI:

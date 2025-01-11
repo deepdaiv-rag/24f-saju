@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from saju_rag.core.entity.document import ConnectorOutput
+
 from saju_rag.core.entity.request_entity import SajuRequest
 
 

@@ -1,11 +1,12 @@
-from typing import List, Tuple
 from abc import abstractmethod
-from saju_rag.core.port.connector import ConnectorPort
-from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
-from transformers import AutoModel, AutoTokenizer
+from typing import List, Tuple
+import numpy as np
 import torch
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+
+from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
+
+from saju_rag.core.port.connector import ConnectorPort
 
 
 class BaseConnector(ConnectorPort):

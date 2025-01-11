@@ -1,9 +1,10 @@
 import asyncio
 from typing import List
+from bs4 import BeautifulSoup
+from playwright.async_api import async_playwright
+
 from saju_rag.component.connector.base import BaseConnector
 from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
-from playwright.async_api import async_playwright
-from bs4 import BeautifulSoup
 
 
 class WebConnector(BaseConnector):
@@ -80,7 +81,7 @@ class WebConnector(BaseConnector):
         page = await self.browser.new_page()
         try:
             if "naver" in url:
-                page.evaluate(
+                await page.evaluate(
                     """
                     const domain = window.location.origin;
                     const iframe = document.querySelector("iframe");
@@ -91,7 +92,7 @@ class WebConnector(BaseConnector):
                 """
                 )
                 await page.wait_for_selector("body")
-            await page.goto(url, wait_until="domcontentloaded", timeout=10000)
+            await page.goto(url, wait_until="domcontentloaded")
             html_content = await page.content()  # HTML 본문을 가져옴
         except Exception as e:
             html_content = None

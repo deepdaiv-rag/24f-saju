@@ -10,6 +10,7 @@ class ConnectorInput(BaseModel):
     query: str
     extraction_result: str
     saju_info: str
+    conversation_history: list[dict] | None = None
 
 
 class ConnectorOutput(BaseModel):
