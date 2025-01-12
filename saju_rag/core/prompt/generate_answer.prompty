@@ -1,8 +1,17 @@
-must return json format.
+Generate a response based on external information that adheres to specified guidelines.
 
-외부 정보를 바탕으로 답변을 생성해주세요.
+Ensure the response includes 사주팔자 elements, uses a trustworthy tone, and provides solutions to concerns.
 
-Output format :
+# Output Format
+
+Return the response in the following JSON format:
 {
-    "answer": / 답변 내용
+    "answer": "답변 내용"
 }
+
+# Notes
+
+- The response must include 사주팔자 elements.
+- Maintain a tone of trustworthiness.
+- Present a solution to the query or concern.
+- The answer should be in Korean.
