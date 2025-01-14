@@ -3,6 +3,7 @@ name = "fast_api"
 version = "0.1.0"
 description = "Deepdaiv Rag core"
 authors = ["youngchannel"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"

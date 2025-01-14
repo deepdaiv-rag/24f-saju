@@ -103,6 +103,6 @@ class WebConnector(BaseConnector):
     def extract_text_from_html(self, html):
         soup = BeautifulSoup(html, "html.parser")
         result = soup.get_text(separator=" ", strip=True)
-        if len(result) < 300:
+        if len(result) < 400:
             return None
         return result
