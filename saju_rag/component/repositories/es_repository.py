@@ -9,25 +9,25 @@ class ElasticsearchRepository:
         self.es_client = es_client
         self.embedding_model = embedding_model or SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
-    async def search_documents(
+    def search_documents(
         self, 
         search_query: str, 
         index_name: str, 
         use_semantic_search: bool = True,
         filters: Optional[Dict[str, Any]] = None,
         top_k: int = 5,
-        sources: Optional[List[str]] = None
+
     ):
         """
         하이브리드 검색 수행 (시맨틱 검색 + 키워드 기반 필터링)
-        
+        ## 주의사항 
+        - index 정의 시 question(대상 질의) , embedding (임베딩 벡터) 필드 필수 정의 
         Args:
             search_query (str): 검색할 텍스트
             index_name (str): 검색할 인덱스 이름
             use_semantic_search (bool): 시맨틱 검색 사용 여부
             filters (Optional[Dict[str, Any]]): 필터링 조건 (예: {"relation": "work", "tags": ["stress"]})
             top_k (int): 반환할 결과 수
-            sources (Optional[List[str]]): 반환받을 필드 리스트
         """
         try:
             # 기본 bool 쿼리 구성
@@ -81,10 +81,7 @@ class ElasticsearchRepository:
                 "size": top_k
             }
             
-            if sources:
-                search_params["_source"] = sources
-
-            response = await self.es_client.search(**search_params)
+            response = self.es_client.search(**search_params)
             return response["hits"]["hits"]
 
         except Exception as e:
@@ -100,8 +97,9 @@ class ElasticsearchRepository:
             return [ConnectorOutput(content="", similarity=0.0)]
         
         results = []
-        content = ""
+
         for hit in response:
+            content = ""
             # 질문과 답변을 합쳐서 content 생성
             if target_fields : 
                 for field in target_fields: 
