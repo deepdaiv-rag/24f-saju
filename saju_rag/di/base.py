@@ -11,7 +11,7 @@ from saju_rag.core.usecase.answer_with_external_info_usecase import (
 from saju_rag.component.llm.gpt import ChatGptClient
 
 from saju_rag.component.repositories.saju_webapi import ShinhanSajuWebApi
-from saju_rag.component.repositories.elasticsearch import ElasticsearchRepository
+from saju_rag.component.repositories.es_repository import ElasticsearchRepository
 
 from saju_rag.core.infra.zenrows import get_zenrows_client
 from saju_rag.core.infra.es_client import get_es_client
@@ -62,6 +62,7 @@ class BaseContainer(DeclarativeContainer):
         model=embedding_model,
         tokenizer=embedding_tokenizer,
         es_repository=es_repository,
+        openai_client=openai_client
     )
 
     # usecase
