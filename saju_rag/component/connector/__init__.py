@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModel
 from .job import JobConnector
 from .web import WebConnector
 from .psychology import PsychologyConnector
-from saju_rag.component.repositories.es_repository  import ElasticsearchRepository
+from saju_rag.component.repositories.elasticsearch  import ElasticsearchRepository
 from saju_rag.core.port.connector_provider import ConnectorProviderPort
 from saju_rag.core.port.connector import ConnectorPort
 from openai import OpenAI

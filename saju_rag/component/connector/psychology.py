@@ -1,6 +1,5 @@
 import json
 import os
-from elasticsearch import AsyncElasticsearch
 from saju_rag.component.connector.base import BaseConnector
 from saju_rag.core.entity.document import ConnectorInput, ConnectorOutput
 from typing import List, Dict, Any
