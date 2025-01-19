@@ -11,6 +11,7 @@ class ElasticsearchRepository:
 
     async def search_documents(
         self, 
+        compare_query: str,
         search_query: str, 
         index_name: str, 
         use_semantic_search: bool = True,
@@ -41,7 +42,7 @@ class ElasticsearchRepository:
             # 텍스트 매칭 쿼리 추가
             query["bool"]["should"].append({
                 "match": {
-                    "question": search_query
+                    compare_query : search_query
                 }
             })
 
