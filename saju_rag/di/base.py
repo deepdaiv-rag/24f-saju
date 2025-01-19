@@ -62,6 +62,7 @@ class BaseContainer(DeclarativeContainer):
         model=embedding_model,
         tokenizer=embedding_tokenizer,
         es_repository=es_repository,
+        openai_client=openai_client
     )
 
     # usecase
