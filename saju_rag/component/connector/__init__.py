@@ -3,25 +3,29 @@ from transformers import AutoTokenizer, AutoModel
 from .job import JobConnector
 from .web import WebConnector
 from .psychology import PsychologyConnector
-from saju_rag.component.repositories.elasticsearch  import ElasticsearchRepository
+from saju_rag.component.repositories.elasticsearch import ElasticsearchRepository
 from saju_rag.core.port.connector_provider import ConnectorProviderPort
 from saju_rag.core.port.connector import ConnectorPort
 from openai import OpenAI
-from saju_rag.di.config import Settings
+
 
 class ConnectorProvider(ConnectorProviderPort):
     def __init__(
         self,
-        config: Settings , 
         model: AutoModel,
         tokenizer: AutoTokenizer,
         es_repository: ElasticsearchRepository,
-        openai_client: OpenAI
+        openai_client: OpenAI,
     ):
         self.connectors = [
-            WebConnector(model, tokenizer),
-            # JobConnector(model, tokenizer, es_repository),
-            PsychologyConnector(model, tokenizer, es_repository, openai_client(api_key=config.openai_api_key))
+            WebConnector(model=model, tokenizer=tokenizer),
+            JobConnector(model=model, tokenizer=tokenizer, es_repository=es_repository),
+            PsychologyConnector(
+                model=model,
+                tokenizer=tokenizer,
+                es_repository=es_repository,
+                openai_client=openai_client,
+            ),
         ]
 
     # 모든 커넥터의 정보를 반환하는 함수
