@@ -42,30 +42,3 @@ not Implemented
    docker-compose build
    docker-compose up
    ```
-
-## 사용 방법
-
-not Implemented
-
-## 기여자
-프로젝트에 대한 질문이나 피드백이 있으시면 [이메일 주소]로 연락해 주세요.
-
-#### 양민지
-  [![양민지의 블로그](https://img.shields.io/badge/블로그-FF4081?style=flat&logo=blog&logoColor=white)](https://your-blog-url.com)
-  [![양민지의 이메일](https://img.shields.io/badge/이메일-FF5722?style=flat&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-  [![양민지의 깃허브](https://img.shields.io/badge/깃허브-181717?style=flat&logo=github&logoColor=white)](https://github.com/your-github-username)
-
-#### 유찬영
-  [![유찬영의 블로그](https://img.shields.io/badge/블로그-FF4081?style=flat&logo=blog&logoColor=white)](https://your-blog-url.com)
-  [![유찬영의 이메일](https://img.shields.io/badge/이메일-FF5722?style=flat&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-  [![유찬영의 깃허브](https://img.shields.io/badge/깃허브-181717?style=flat&logo=github&logoColor=white)](https://github.com/your-github-username)
-
-#### 조하영
-  [![조하영의 블로그](https://img.shields.io/badge/블로그-FF4081?style=flat&logo=blog&logoColor=white)](https://your-blog-url.com)
-  [![조하영의 이메일](https://img.shields.io/badge/이메일-FF5722?style=flat&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-  [![조하영의 깃허브](https://img.shields.io/badge/깃허브-181717?style=flat&logo=github&logoColor=white)](https://github.com/your-github-username)
-
-
-## 참고 자료
-
-not Implemented
